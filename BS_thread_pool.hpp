@@ -21,7 +21,7 @@
 #include <iostream>           // std::cout, std::endl, std::flush, std::ostream
 #include <memory>             // std::make_shared, std::make_unique, std::shared_ptr, std::unique_ptr
 #include <mutex>              // std::mutex, std::scoped_lock, std::unique_lock
-#include <queue>              // std::queue
+#include <deque>              // std::deque
 #include <thread>             // std::thread
 #include <type_traits>        // std::common_type_t, std::conditional_t, std::decay_t, std::invoke_result_t, std::is_void_v
 #include <utility>            // std::forward, std::move, std::swap
@@ -427,7 +427,7 @@ public:
         std::function<void()> task_function = std::bind(std::forward<F>(task), std::forward<A>(args)...);
         {
             const std::scoped_lock tasks_lock(tasks_mutex);
-            tasks.push(task_function);
+            tasks.push_back(task_function);
         }
         ++tasks_total;
         task_available_cv.notify_one();
@@ -575,7 +575,7 @@ private:
             if (running && !paused)
             {
                 task = std::move(tasks.front());
-                tasks.pop();
+                tasks.pop_front();
                 tasks_lock.unlock();
                 task();
                 tasks_lock.lock();
@@ -613,7 +613,7 @@ private:
     /**
      * @brief A queue of tasks to be executed by the threads.
      */
-    std::queue<std::function<void()>> tasks = {};
+    std::deque<std::function<void()>> tasks = {};
 
     /**
      * @brief An atomic variable to keep track of the total number of unfinished tasks - either still in the queue, or running in a thread.
