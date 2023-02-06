@@ -15,6 +15,9 @@ Email: [baraksh@gmail.com](mailto:baraksh@gmail.com)<br />
 Website: [https://baraksh.com/](https://baraksh.com/)<br />
 GitHub: [https://github.com/bshoshany](https://github.com/bshoshany)<br />
 
+## Changes in this fork
+this fork adds `push_task_priority` and `submit_priority` methods, the methods have the same api as there non priority counterparts but instead push tasks to the front of the job pool for more critical or time sensitive tasks
+
 This is the complete documentation for v3.3.0 of the library, released on 2022-08-03.
 
 * [Introduction](#introduction)
