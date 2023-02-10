@@ -65,6 +65,17 @@ public:
     // =======================
 
     /**
+     * @brief Get the number of tasks currently waiting in the queue to be executed by the threads.
+     *
+     * @return The number of queued tasks.
+     */
+    [[nodiscard]] size_t get_tasks_queued() const
+    {
+        const std::scoped_lock tasks_lock(tasks_mutex);
+        return tasks.size();
+    }
+
+    /**
      * @brief Get the number of threads in the pool.
      *
      * @return The number of threads.
